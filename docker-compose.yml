@@ -1,0 +1,78 @@
+services:
+    nginx:
+        container_name: hyp0th3rapy-nginx
+        image: nginx:alpine
+        volumes:
+            - "./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+            - "./etc/ssl:/etc/ssl"
+            - "./cms:/var/www/html"
+        ports:
+            - "8000:80"
+            - "3000:443"
+        environment:
+            - NGINX_HOST=${NGINX_HOST}
+        command: /bin/sh -c "envsubst '$$NGINX_HOST' < /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+        restart: always
+        depends_on:
+            - php
+            - db
+        networks:
+            - web
+    php:
+        build:
+            dockerfile: Dockerfile.backend
+        restart: always
+        container_name: hyp0th3rapy-php
+        volumes:
+            - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
+            - "./cms:/var/www/html"
+        user: 1000:1000
+        networks:
+            - web
+            - mysql_backend
+    composer:
+        container_name: hyp0th3rapy-composer
+        build:
+            dockerfile: Dockerfile.composer
+        volumes:
+            - "./cms:/app"
+            - "./etc/php/composer.ini:/usr/local/etc/php/conf.d/php.ini"
+        command: install
+    db:
+        image: mysql:${MYSQL_VERSION}
+        container_name: hyp0th3rapy-mysql
+        volumes:
+            - db_data:/var/lib/mysql
+        restart: always
+        env_file:
+            - ".env"
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        networks:
+            - mysql_phpmyadmin
+            - mysql_backend
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        container_name: hyp0th3rapy-phpmyadmin
+        environment:
+            - PMA_HOSTS=db
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "8090:80"
+        depends_on:
+            - db
+        networks:
+            - mysql_phpmyadmin
+            - web
+
+networks:
+    mysql_phpmyadmin:
+    mysql_backend:
+    web:
+
+volumes:
+    db_data:

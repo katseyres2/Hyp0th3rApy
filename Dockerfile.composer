@@ -1,0 +1,4 @@
+FROM composer
+RUN apk update \ 
+&& apk add php-curl \ 
+&& apk add php-intl
