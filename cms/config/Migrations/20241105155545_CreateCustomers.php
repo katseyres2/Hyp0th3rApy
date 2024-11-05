@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateHorse extends AbstractMigration
+class CreateCustomers extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,18 +14,14 @@ class CreateHorse extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('horse');
+        $table = $this->table('customers');
         $table->addColumn('name', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('max_working_hours', 'integer', [
+        $table->addColumn('deleted', 'boolean', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('is_deleted', 'boolean', [
-            'default' => false,
             'null' => false,
         ]);
         $table->addColumn('created', 'datetime', [
