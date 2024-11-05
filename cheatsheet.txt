@@ -1,0 +1,4 @@
+bin/cake bake migration CreateHorses name:string max_working_hours:integer deleted:boolean created modified
+bin/cake migrations migrate
+
+bin/cake migrations seed
