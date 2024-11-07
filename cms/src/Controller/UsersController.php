@@ -126,6 +126,8 @@ class UsersController extends AppController
             $redirect = $this->Authentication->getLoginRedirect();
             if ($redirect) {
                 return $this->redirect($redirect);
+            } else {
+                return $this->redirect(['action' => 'index']);
             }
         }
 
