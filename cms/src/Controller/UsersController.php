@@ -111,6 +111,16 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    public function profile()
+    {
+        $data = $this->request->getAttribute('identity');
+        
+        if ($data != null) {
+            $user = $this->Users->get($data['id']);
+            $this->set(compact('user'));
+        }
+    }
+
     /**
      * Login method
      *
@@ -126,7 +136,7 @@ class UsersController extends AppController
             $redirect = $this->Authentication->getLoginRedirect();
 
             if (!$redirect) {
-                $redirect = ['controller' => 'Horses', 'action' => 'index'];
+                $redirect = ['controller' => 'Dashboard', 'action' => 'index'];
             }
 
             if ($redirect) {

@@ -22,14 +22,18 @@ class CustomersSeed extends AbstractSeed
     {
         $data = [
             [
-                'name' => 'john',
-                'deleted' => false,
+                'firstname' => 'john',
+                'lastname' => 'doe',
+                'phone' => '000112233',
+                'email' => 'john@mail.com',
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],
             [
-                'name' => 'jane',
-                'deleted' => false,
+                'firstname' => 'jane',
+                'lastname' => 'doe',
+                'phone' => '000112233',
+                'email' => 'jane@mail.com',
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],

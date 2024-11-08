@@ -37,5 +37,15 @@ class AppView extends View
      */
     public function initialize(): void
     {
+        $data = $this->request->getAttribute('identity');
+
+        if ($data != null) {
+            $profile = [
+                'username' => $data['username'],
+                'id' => $data['id'],
+            ];
+
+            $this->set(['profile' => $profile]);
+        }
     }
 }

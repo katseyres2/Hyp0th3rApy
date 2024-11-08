@@ -24,21 +24,18 @@ class HorsesSeed extends AbstractSeed
             [
                 'name' => 'paul',
                 'max_working_hours' => 10,
-                'deleted' => false,
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],
             [
                 'name' => 'jane',
                 'max_working_hours' => 15,
-                'deleted' => false,
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],
             [
                 'name' => 'rose',
                 'max_working_hours' => 5,
-                'deleted' => false,
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],
