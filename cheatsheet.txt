@@ -7,3 +7,4 @@ bin/cake bake migration CreateCustomers name:string deleted:boolean created modi
 bin/cake migrations migrate
 bin/cake bake seed Customers
 bin/cake migrations seed
+

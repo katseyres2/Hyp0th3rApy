@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\AbstractMigration;
 
-class CreateHorses extends AbstractMigration
+class CreateUsers extends AbstractMigration
 {
     /**
      * Change Method.
@@ -14,19 +14,20 @@ class CreateHorses extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('horses');
-        $table->addColumn('name', 'string', [
+        $table = $this->table('users');
+        $table->addColumn('username', 'string', [
             'default' => null,
             'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('max_working_hours', 'integer', [
+        $table->addColumn('password', 'string', [
             'default' => null,
-            'limit' => 11,
+            'limit' => 255,
             'null' => false,
         ]);
-        $table->addColumn('deleted', 'boolean', [
+        $table->addColumn('email', 'string', [
             'default' => null,
+            'limit' => 255,
             'null' => false,
         ]);
         $table->addColumn('created', 'datetime', [
