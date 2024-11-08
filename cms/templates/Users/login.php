@@ -4,6 +4,7 @@
         <legend><?= __('Please enter your email and password') ?></legend>
         <?= $this->Form->control('email') ?>
         <?= $this->Form->control('password') ?>
+        <?= $this->Form->control('remember_me', ['type' => 'checkbox']) ?>
     </fieldset>
     <?= $this->Form->button(__('Login')); ?>
     <?= $this->Form->end() ?>

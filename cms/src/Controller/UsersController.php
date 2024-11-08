@@ -122,12 +122,15 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
-            $this->Flash->success(__('Login successful'));
+            // $this->Flash->success(__('Login successful'));
             $redirect = $this->Authentication->getLoginRedirect();
+
+            if (!$redirect) {
+                $redirect = ['controller' => 'Horses', 'action' => 'index'];
+            }
+
             if ($redirect) {
                 return $this->redirect($redirect);
-            } else {
-                return $this->redirect(['action' => 'index']);
             }
         }
 

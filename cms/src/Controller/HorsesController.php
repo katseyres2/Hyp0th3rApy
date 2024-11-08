@@ -1,11 +1,16 @@
 <?php
 namespace App\Controller;
 
+use Authentication\AuthenticationService;
+
 class HorsesController extends AppController
 {
 	function index()
 	{
 		$horses = $this->paginate($this->Horses->find());
+		$service = new AuthenticationService();
+		$identifier = $service->loadIdentifier('Authentication.Password');
+		dd($identifier);
 		$this->set(compact('horses'));
 	}
 

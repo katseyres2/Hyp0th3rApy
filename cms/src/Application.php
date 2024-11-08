@@ -33,6 +33,7 @@ use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Cake\Http\Cookie\Cookie;
 use Cake\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -146,6 +147,16 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         // Load the authenticators. Session should be first.
         $service->loadAuthenticator('Authentication.Session');
         $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => Router::url([
+                'prefix' => false,
+                'plugin' => null,
+                'controller' => 'Users',
+                'action' => 'login',
+            ]),
+        ]);
+
+        $service->loadAuthenticator('Authentication.Cookie', [
             'fields' => $fields,
             'loginUrl' => Router::url([
                 'prefix' => false,
