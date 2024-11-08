@@ -55,13 +55,18 @@ return function (RouteBuilder $routes): void {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
-        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
         // $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+        $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
+        $builder->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
+        $builder->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
+        $builder->connect('/users/profile', ['controller' => 'Users', 'action' => 'profile']);
+        $builder->connect('/horses', ['controller' => 'Horses', 'action' => 'index']);
+
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
-        $builder->connect('/pages/*', 'Pages::display');
+        // $builder->connect('/pages/*', 'Pages::display');
 
         /*
          * Connect catchall routes for all controllers.
@@ -76,7 +81,7 @@ return function (RouteBuilder $routes): void {
          * You can remove these routes once you've connected the
          * routes you want in your application.
          */
-        $builder->fallbacks();
+        // $builder->fallbacks();
     });
 
     /*
