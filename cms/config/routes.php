@@ -60,8 +60,9 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
         $builder->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
         $builder->connect('/users/profile', ['controller' => 'Users', 'action' => 'profile']);
-        $builder->connect('/horses', ['controller' => 'Horses', 'action' => 'index']);
-
+        $builder->connect('/horses/{id}', ['controller' => 'Horses', 'action' => 'view'])
+            ->setPatterns(['id' => '\d+'])
+            ->setPass(['id']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.

@@ -31,10 +31,9 @@ class Custom extends AbstractMigration
             ->create();
 
         $this->table('lessons')
-            ->addColumn('hours', 'integer',             ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
             ->addColumn('price', 'float',               ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
-            ->addColumn('number_of_people', 'integer',  ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
             ->addColumn('start_datetime', 'datetime',   ['default' => null,                 'limit' => null, 'null' => false])
+            ->addColumn('end_datetime', 'datetime',   ['default' => null,                 'limit' => null, 'null' => false])
             ->addColumn('created', 'datetime',          ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
             ->addColumn('modified', 'datetime',         ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
             ->addColumn('customer_id', 'integer',       ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
