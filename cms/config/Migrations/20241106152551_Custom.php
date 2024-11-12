@@ -66,11 +66,19 @@ class Custom extends AbstractMigration
             ->addColumn('customer_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
             ->addIndex(['customer_id'], ['name' => 'fk_teams_customers'])
             ->addForeignKey('customer_id', 'customers', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_customers'])
-            ->addColumn('rider_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
-            ->addIndex(['rider_id'], ['name' => 'fk_riders'])
-            ->addForeignKey('rider_id', 'riders', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_riders'])
             ->create();
 
+        $this->table('teams_riders')
+        ->addColumn('created', 'datetime',  ['default' => null, 'null' => false])
+        ->addColumn('modified', 'datetime', ['default' => null, 'null' => false])
+        ->addColumn('rider_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
+        ->addColumn('team_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
+        ->addIndex(['rider_id'], ['name' => 'fk_teams_riders_riders', 'unique' => false])
+        ->addIndex(['team_id'] , ['name' => 'fk_teams_riders_teams', 'unique' => false])
+        ->addForeignKey('rider_id', 'riders', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_riders_riders'])
+        ->addForeignKey('team_id' , 'teams' , 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_riders_teams' ])
+        ->create();
+        
         $this->table('users')
             ->addColumn('username', 'string',   ['default' => null, 'limit' => 255, 'null' => false])
             ->addColumn('password', 'string',   ['default' => null, 'limit' => 255, 'null' => false])
