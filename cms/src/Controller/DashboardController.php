@@ -1,6 +1,10 @@
 <?php
 namespace App\Controller;
 
+use Cake\I18n\Date;
+use DateInterval;
+use DateTime;
+
 class DashboardController extends AppController
 {
 	public function index()
@@ -24,8 +28,15 @@ class DashboardController extends AppController
 
 		$this->set(compact('customer'));
 		$table = $this->fetchTable('Lessons');
-		$lessons = $table->find('all')->contain(['Teams', 'Horses', 'Teams.Riders', 'Teams.Customers']);
-		$lessons = $this->paginate($lessons);
+
+		$today = Date::today();
+		$tomorrow = $today->add(DateInterval::createFromDateString('1 day'));
+		$today = $today->format('Y-m-d 00:00:00');
+		$tomorrow = $tomorrow->format('Y-m-d 00:00:00');
+
+		$conditions = ["Lessons.start_datetime BETWEEN '$today' AND '$tomorrow'"];
+		$lessons = $table->find('all', ['conditions' => $conditions])->contain(['Teams', 'Horses', 'Teams.Riders', 'Teams.Customers']);
+
 		$this->set(compact('lessons'));
 	}
 }

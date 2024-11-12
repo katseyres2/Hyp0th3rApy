@@ -33,20 +33,24 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Hyp0</span>th3rApy</a>
-        </div>
-        <div class="top-nav-links">
-            <!-- <a target="_blank" rel="noopener" href="https://book.cakephp.org/5/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a> -->
-            <?php if(isset($profile)): ?>
-                <?= $this->Html->link(__('Account'), ['controller' => 'Users', 'action' => 'profile']) ?>
-                <?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']) ?>
-            <?php endif ?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+        <div class="container-fluid">
+            <a href="<?= $this->Url->build('/') ?>" class="navbar-brand"><span>Hyp0</span>th3rApy</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <?php if(isset($profile)): ?>
+                    <li class="nav-item">
+                    <?= $this->Html->link(__('Account'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'nav-link active']) ?>
+                    </li>
+                    <li class="nav-item">
+                    <?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link active']) ?>
+                    </li>
+                <?php endif ?>
+                </ul>
+            </div>
         </div>
     </nav>
-    <main class="main">
+    <main class="main m-3">
         <div class="container">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
