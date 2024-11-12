@@ -60,9 +60,13 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
         $builder->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
         $builder->connect('/users/profile', ['controller' => 'Users', 'action' => 'profile']);
-        $builder->connect('/horses/{id}', ['controller' => 'Horses', 'action' => 'view'])
-            ->setPatterns(['id' => '\d+'])
-            ->setPass(['id']);
+        $builder->connect('/horses/{id}', ['controller' => 'Horses', 'action' => 'view'])->setPatterns(['id' => '\d+'])->setPass(['id']);
+        
+        $builder->connect('/teams/{id}', ['controller' => 'Teams', 'action' => 'view'])->setPatterns(['id' => '\d+'])->setPass(['id']);
+        $builder->connect('/teams', ['controller' => 'Teams', 'action' => 'index']);
+        $builder->connect('/teams/add', ['controller' => 'Teams', 'action' => 'add']);
+        $builder->connect('/teams/delete/{id}', ['controller' => 'Teams', 'action' => 'delete'])->setPatterns(['id' => '\d+'])->setPass(['id']);
+        $builder->connect('/teams/edit/{id}', ['controller' => 'Teams', 'action' => 'edit'])->setPatterns(['id' => '\d+'])->setPass(['id']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
@@ -82,7 +86,7 @@ return function (RouteBuilder $routes): void {
          * You can remove these routes once you've connected the
          * routes you want in your application.
          */
-        // $builder->fallbacks();
+        $builder->fallbacks();
     });
 
     /*

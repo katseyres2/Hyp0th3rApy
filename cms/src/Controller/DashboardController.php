@@ -6,6 +6,8 @@ class DashboardController extends AppController
 	public function index()
 	{
 		$cTable = $this->fetchTable('Customers');
+		$customers = $cTable->find('all')->contain([]);
+		$this->set(compact('customers'));
 		$customer = $cTable->newEmptyEntity();
 		
 		if ($this->request->is('post')) {

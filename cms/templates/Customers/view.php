@@ -16,11 +16,15 @@
     </aside>
     <div class="column column-80">
         <div class="customers view content">
-            <h3><?= h($customer->name) ?></h3>
+            <h3><?= h(ucfirst($customer->firstname)) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Name') ?></th>
-                    <td><?= h($customer->name) ?></td>
+                    <th><?= __('Firstname') ?></th>
+                    <td><?= h(ucfirst($customer->firstname)) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Lastname') ?></th>
+                    <td><?= h(ucfirst($customer->lastname)) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>

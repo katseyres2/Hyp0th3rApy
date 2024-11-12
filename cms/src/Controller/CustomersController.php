@@ -6,6 +6,7 @@ namespace App\Controller;
 /**
  * Customers Controller
  *
+ * @property \App\Model\Table\CustomersTable $Customers
  */
 class CustomersController extends AppController
 {
