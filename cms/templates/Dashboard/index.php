@@ -10,15 +10,14 @@
 		<tr>
 			<td>
 				<table>
-					<?= $this->Html->tableHeaders(['Hours', 'Price', 'Number of people', 'Start datetime', 'Customer']) ?>
+					<?= $this->Html->tableHeaders(['Price', 'Number of people', 'Start datetime', 'End datetime', 'Team']) ?>
                     <?php foreach($lessons as $lesson): ?>
                     <tr>
                         <td><?= $lesson->price ?></td>
-                        <td><?= $lesson->hours ?></td>
-                        <td><?= $lesson->number_of_people ?></td>
+                        <td><?= count($lesson->team->riders) ?></td>
                         <td><?= $lesson->start_datetime ?></td>
-                        <td><?= $lesson->customer->name ?></td>
-
+                        <td><?= $lesson->end_datetime ?></td>
+                        <td><?= $lesson->team->name ?></td>
                     </tr>
                     <?php endforeach ?>
 				</table>

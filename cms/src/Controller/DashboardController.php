@@ -19,15 +19,11 @@ class DashboardController extends AppController
             }
             $this->Flash->error(__('The customer could not be saved. Please, try again.'));
         }
-        $this->set(compact('customer'));
 
-		$lTable = $this->fetchTable('Lessons');
-		$lessons = $this->paginate($lTable->find());
-
-		foreach ($lessons as $lesson) {
-			$lesson->customer = $cTable->findById($lesson->customer_id)->firstOrFail();
-		}
-
+		$this->set(compact('customer'));
+		$table = $this->fetchTable('Lessons');
+		$lessons = $table->find('all')->contain(['Teams', 'Horses', 'Teams.Riders', 'Teams.Customers']);
+		$lessons = $this->paginate($lessons);
 		$this->set(compact('lessons'));
 	}
 }

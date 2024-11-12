@@ -6,17 +6,19 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Lesson Entity
+ * Team Entity
  *
  * @property int $id
- * @property float $price
- * @property \Cake\I18n\DateTime $start_datetime
- * @property \Cake\I18n\DateTime $end_datetime
+ * @property string $name
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
- * @property int $team_id
+ * @property int $customer_id
+ *
+ * @property \App\Model\Entity\Customer $customer
+ * @property \App\Model\Entity\Lesson[] $lessons
+ * @property \App\Model\Entity\Rider[] $riders
  */
-class Lesson extends Entity
+class Team extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,11 +30,12 @@ class Lesson extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'price' => true,
-        'start_datetime' => true,
-        'end_datetime' => true,
+        'name' => true,
         'created' => true,
         'modified' => true,
-        'team_id' => true,
+        'customer_id' => true,
+        'customer' => true,
+        'lessons' => true,
+        'riders' => true,
     ];
 }

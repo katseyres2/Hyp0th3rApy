@@ -29,28 +29,6 @@ class Custom extends AbstractMigration
             ->addColumn('created', 'datetime',          ['default' => 'CURRENT_TIMESTAMP',  'limit' => null,    'null' => false])
             ->addColumn('modified', 'datetime',         ['default' => 'CURRENT_TIMESTAMP',  'limit' => null,    'null' => false])
             ->create();
-
-        $this->table('lessons')
-            ->addColumn('price', 'float',               ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
-            ->addColumn('start_datetime', 'datetime',   ['default' => null,                 'limit' => null, 'null' => false])
-            ->addColumn('end_datetime', 'datetime',   ['default' => null,                 'limit' => null, 'null' => false])
-            ->addColumn('created', 'datetime',          ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
-            ->addColumn('modified', 'datetime',         ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
-            ->addColumn('customer_id', 'integer',       ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
-            ->addIndex(['customer_id'], ['name' => 'fk_customers'])
-            ->addForeignKey('customer_id', 'customers', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_customers'])
-            ->create();
-
-        $this->table('horses_lessons')
-            ->addColumn('lesson_id', 'integer', ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
-            ->addColumn('horse_id', 'integer',  ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
-            ->addColumn('created', 'datetime',  ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
-            ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
-            ->addIndex(['horse_id'], ['name' => 'fk_horses'])
-            ->addForeignKey('horse_id', 'horses', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_horses'])
-            ->addIndex(['lesson_id'], ['name' => 'fk_lessons'])
-            ->addForeignKey('lesson_id', 'lessons', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_lessons'])
-            ->create();
         
         $this->table('riders')
             ->addColumn('username', 'string', ['default' => null, 'limit' => 255, 'null' => true])
@@ -85,7 +63,29 @@ class Custom extends AbstractMigration
             ->addColumn('email', 'string',      ['default' => null, 'limit' => 255, 'null' => false])
             ->addColumn('created', 'datetime',  ['default' => null, 'null' => false])
             ->addColumn('modified', 'datetime', ['default' => null, 'null' => false])
-            ->addIndex(['username', 'email'], ['unique' => true])
+            ->addIndex(['username', 'email'], ['unique' => false])
+            ->create();
+
+        $this->table('lessons')
+            ->addColumn('price', 'float', ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
+            ->addColumn('start_datetime', 'datetime', ['default' => null,                 'limit' => null, 'null' => false])
+            ->addColumn('end_datetime', 'datetime', ['default' => null,                 'limit' => null, 'null' => false])
+            ->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
+            ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
+            ->addColumn('team_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
+            ->addIndex(['team_id'], ['name' => 'fk_lessons_teams'])
+            ->addForeignKey('team_id', 'teams', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_lessons_teams'])
+            ->create();
+
+        $this->table('horses_lessons')
+            ->addColumn('lesson_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
+            ->addColumn('horse_id', 'integer',  ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
+            ->addColumn('created', 'datetime',  ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
+            ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])
+            ->addIndex(['horse_id'], ['name' => 'fk_horses_lessons_horses'])
+            ->addIndex(['lesson_id'], ['name' => 'fk_horses_lessons_lessons'])
+            ->addForeignKey('horse_id', 'horses', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_horses_lessons_horses'])
+            ->addForeignKey('lesson_id', 'lessons', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_horses_lessons_lessons'])
             ->create();
     }
 
