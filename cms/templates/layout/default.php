@@ -38,21 +38,15 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
         <div class="container-fluid">
             <a href="<?= $this->Url->build('/') ?>" class="navbar-brand"><span>Hyp0</span>th3rApy</a>
-            <div class="collapse navbar-collapse">
+            <div>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <?= $this->Html->link(__('Horse Manager'), ['controller' => 'Horses', 'action' => 'index'], ['class' => 'nav-link active']) ?>
-                    </li>
-                    <li class="nav-item">
-                    <?= $this->Html->link(__('Invoice'), ['controller' => 'Invoice', 'action' => 'index'], ['class' => 'nav-link active']) ?>
-                    </li>
-                <?php if(isset($profile)): ?>
-                    <li class="nav-item">
-                    <?= $this->Html->link(__('Account'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'nav-link active']) ?>
-                    </li>
-                    <li class="nav-item">
-                    <?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link active']) ?>
-                    </li>
-                <?php endif ?>
+                    <li class="nav-item"><?= $this->Html->link(__('Horse Manager'), ['controller' => 'Horses', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Invoice'), ['controller' => 'Invoice', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <?php if(isset($profile)): ?>
+                    <li class="nav-item"><?= $this->Html->link(__('Account'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link active']) ?></li>
+                    <?php endif ?>
+                    <li class="nav-item fs-4 pt-0 ps-4 mt-0"><a href="https://github.com/katseyres2/Hyp0th3rApy"><i class="mt-1 ms-3 fs-3 fa-brands fa-github" style="color: black;"></a></i></li>
                 </ul>
             </div>
         </div>

@@ -77,7 +77,9 @@
 							<tfoot class="border-top border-secondary">
 								<tr>
 									<td colspan="2"><?= __('Total') ?> : <?= $data['total_amount'] ?> €</td>
-									<td><?= __('Send all invoices') ?> <i class="fa-solid fa-paper-plane"></i></td>
+									<td>
+										<a href="#"><?= __('Send all invoices') ?> <i class="fa-solid fa-paper-plane"></i></a>
+									</td>
 								</tr>
 							</tfoot>
 						<?php endif ?>
