@@ -96,4 +96,40 @@ class LessonsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function assign($id = null)
+    {
+        $this->request->allowMethod(['put']);
+        $horses = $this->fetchTable('Horses')->find();
+        $data = $this->request->getData();
+        $lesson = $this->Lessons->findById($id)->contain(['Horses', 'Teams.Riders'])->first();
+
+        $session = $this->request->getSession();
+        $session->write('lesson.selected', $id);
+
+        $selectedHorseIds = [];
+        $lesson->horses = [];
+        
+        foreach (array_keys($data) as $key) {
+            if (str_starts_with($key, 'horse')) {
+                $selectedHorseIds[] = $data[$key];
+            }
+        }
+
+        foreach ($horses as $horse) {
+            if (in_array($horse->id, $selectedHorseIds)) {
+                $lesson->horses[] = $horse;
+            }
+        }
+
+        if (count($lesson->horses) != count($lesson->team->riders)) {
+            $this->Flash->error(__('The lesson could not be saved. Please, try again.'));
+        } else {
+            if ($this->Lessons->save($lesson)) {
+                $this->Flash->success($lesson->team->name . ' ' . date_format($lesson->start_datetime, 'H:i') . ' - ' . date_format($lesson->end_datetime, 'H:i') . ' : ' . __('The lesson has been saved.'));
+            }
+        }
+
+        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
+    }
 }

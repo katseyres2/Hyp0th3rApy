@@ -27,6 +27,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <?= $this->Html->meta('icon') ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b92b01fb6c.js" crossorigin="anonymous"></script>
+    <?= $this->Html->css(['cake']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -38,6 +40,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>" class="navbar-brand"><span>Hyp0</span>th3rApy</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <?= $this->Html->link(__('Horse Manager'), ['controller' => 'Horses', 'action' => 'index'], ['class' => 'nav-link active']) ?>
+                    </li>
                 <?php if(isset($profile)): ?>
                     <li class="nav-item">
                     <?= $this->Html->link(__('Account'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'nav-link active']) ?>

@@ -406,5 +406,9 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'ini' => [
+            'session.cookie_samesite' => 'Strict',
+        ],
+        'timeout' => 600
     ],
 ];

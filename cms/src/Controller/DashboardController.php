@@ -35,8 +35,17 @@ class DashboardController extends AppController
 		$tomorrow = $tomorrow->format('Y-m-d 00:00:00');
 
 		$conditions = ["Lessons.start_datetime BETWEEN '$today' AND '$tomorrow'"];
-		$lessons = $table->find('all', ['conditions' => $conditions])->contain(['Teams', 'Horses', 'Teams.Riders', 'Teams.Customers']);
+		$lessons = $table->find('all', ['conditions' => $conditions])->contain(['Teams', 'Horses', 'Teams.Riders', 'Teams.Customers'])->orderByAsc('start_datetime');
+
+		$horses = $this->fetchTable('Horses')->find('all')->contain([]);
+		$selectedLesson = $this->request->getSession()->read('lesson.selected');
+
+		if ($selectedLesson == null) {
+			$selectedLesson = $lessons->first()->id;
+		}
 
 		$this->set(compact('lessons'));
+		$this->set(compact('horses'));
+		$this->set(compact('selectedLesson'));
 	}
 }
