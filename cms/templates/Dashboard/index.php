@@ -10,9 +10,16 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button <?php if ($selectedLesson != $lesson->id) echo 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $key ?>" aria-expanded="<?php if ($key == 0) echo 'true'; ?>" aria-controls="collapse<?= $key ?>">
-                    <?= h($lesson->team->name) ?>
-                    <?= h(date_format($lesson->start_datetime, 'H:i')) ?> -
-                    <?= h(date_format($lesson->end_datetime, 'H:i')) ?>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-10">
+                                <?= h($lesson->team->name) ?>
+                            </div>
+                            <div class="col">
+                                <?= h(date_format($lesson->start_datetime, 'H:i')) ?> - <?= h(date_format($lesson->end_datetime, 'H:i')) ?>
+                            </div>
+                        </div>
+                    </div>
                 </button>
             </h2>
             <div id="collapse<?= $key ?>" class="accordion-collapse collapse <?php if ($selectedLesson == $lesson->id)  echo 'show'; else echo 'false' ?>" data-bs-parent="#accordionExample">

@@ -40,8 +40,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>" class="navbar-brand"><span>Hyp0</span>th3rApy</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
                     <?= $this->Html->link(__('Horse Manager'), ['controller' => 'Horses', 'action' => 'index'], ['class' => 'nav-link active']) ?>
+                    </li>
+                    <li class="nav-item">
+                    <?= $this->Html->link(__('Invoice'), ['controller' => 'Invoice', 'action' => 'index'], ['class' => 'nav-link active']) ?>
                     </li>
                 <?php if(isset($profile)): ?>
                     <li class="nav-item">

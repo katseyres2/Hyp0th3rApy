@@ -57,6 +57,7 @@ return function (RouteBuilder $routes): void {
          */
         // $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
         $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
+        
         $builder->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
         $builder->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
         $builder->connect('/users/profile', ['controller' => 'Users', 'action' => 'profile']);
@@ -67,6 +68,9 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/teams/add', ['controller' => 'Teams', 'action' => 'add']);
         $builder->connect('/teams/delete/{id}', ['controller' => 'Teams', 'action' => 'delete'])->setPatterns(['id' => '\d+'])->setPass(['id']);
         $builder->connect('/teams/edit/{id}', ['controller' => 'Teams', 'action' => 'edit'])->setPatterns(['id' => '\d+'])->setPass(['id']);
+        
+        
+        
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
