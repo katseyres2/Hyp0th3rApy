@@ -15,12 +15,18 @@
 					<tr>
 						<td><?= h(ucfirst($h->name)) ?></td>
 						<td><?= $h->max_working_hours ?></td>
-						<td><?= $this->Html->link('', ['action' => 'edit', $h->id], ['class' => 'fa-solid fa-pen-to-square']) ?></td>
+						<td>
+							<?= $this->Form->create(null, ['url' => ['action' => 'edit'], 'type' => 'put']) ?>
+							<?= $this->Form->hidden('id', ['default' => $h->id, 'class' => '']) ?>
+							<?= $this->Form->button('', ['class' => 'fa-solid fa-pen-to-square border-0 bg-transparent', 'type' => 'submit']) ?>
+							<?= $this->Form->end() ?> 
+						</td>
 						<td>
 							<?= $this->Form->create(null, ['url' => ['action' => 'delete'], 'type' => 'delete']) ?>
 							<?= $this->Form->hidden('id', ['default' => $h->id, 'class' => '']) ?>
 							<?= $this->Form->button('', ['class' => 'fa-solid fa-trash border-0 bg-transparent', 'style' => 'color: red', 'type' => 'submit', 'confirm' => __('Confirm')]) ?>
 							<?= $this->Form->end() ?> 
+						</td>
 					</tr>
 					<?php endforeach ?>
 				</table>

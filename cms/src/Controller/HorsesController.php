@@ -33,11 +33,14 @@ class HorsesController extends AppController
 		$this->set('horse', $horse);
 	}
 
-	function edit($id)
+	function edit()
 	{
+		$this->request->allowMethod('put');
+		$id = $this->request->getData('id');
+		$update = $this->request->getData('update');
 		$horse = $this->Horses->findById($id)->firstOrFail();
 
-		if ($this->request->is(['post', 'put'])) {
+		if ($update) {
 			$this->Horses->patchEntity($horse, $this->request->getData());
 
 			if ($this->Horses->save($horse)) {
