@@ -101,7 +101,7 @@ class LessonsController extends AppController
     public function assign($id = null)
     {
         $this->request->allowMethod(['put']);
-        $horses = $this->fetchTable('Horses')->find();
+        $horses = $this->fetchTable('Horses')->find()->contain(['Lessons']);
         $data = $this->request->getData();
         $lesson = $this->Lessons->findById($id)->contain(['Horses', 'Teams.Riders'])->first();
 
@@ -110,7 +110,6 @@ class LessonsController extends AppController
 
         $selectedHorseIds = [];
         $lesson->horses = [];
-
         
         foreach (array_keys($data) as $key) {
             if (str_starts_with($key, 'horse') && $data[$key] != '-1') {
@@ -121,6 +120,21 @@ class LessonsController extends AppController
 
         foreach ($horses as $horse) {
             if (in_array($horse->id, $selectedHorseIds)) {
+                $totalWorkingSeconds = 0;
+                $maxWorkingSeconds = $horse->max_working_hours * 3600;
+
+                foreach ($horse->lessons as $l) {
+                    $duration = $l->end_datetime->getTimestamp() - $l->start_datetime->getTimestamp();
+                    $totalWorkingSeconds += $duration;
+                }
+
+                $remainingWorkingSeconds = $maxWorkingSeconds - $totalWorkingSeconds;
+
+                if ($remainingWorkingSeconds < 1) {
+                    $this->Flash->error("The horse $horse->name cannot work today anymore.");
+                    return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
+                }
+
                 $lesson->horses[] = $horse;
             }
         }
