@@ -101,26 +101,39 @@ class CustomSeed extends AbstractSeed
 
     private function seedHorses(): void
     {
-        $data = [
-            [
-                'name' => 'paul',
-                'max_working_hours' => 10,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'name' => 'jane',
-                'max_working_hours' => 15,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'name' => 'rose',
-                'max_working_hours' => 5,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
+        $info = [
+            'alex' => 8,
+            'bella' => 12,
+            'charlie' => 3,
+            'diana' => 16,
+            'ethan' => 7,
+            'fiona' => 10,
+            'george' => 20,
+            'hannah' => 15,
+            'ian' => 4,
+            'julia' => 19,
+            'kyle' => 11,
+            'lara' => 9,
+            'mike' => 6,
+            'nina' => 14,
+            'oliver' => 0,
+            'paula' => 13,
+            'quentin' => 17,
+            'rachel' => 22,
+            'steve' => 5,
+            'tina' => 24,
         ];
+
+        $data = [];
+
+        foreach ($info as $name => $working) {
+            $data[] = [
+                'name' => $name,
+                'max_working_hours' => $working,
+                'created' => date('Y-m-d H:i:s'),
+                'modified' => date('Y-m-d H:i:s'),
+            ];
+        }
 
         $table = $this->table('horses');
         $table->insert($data)->save();

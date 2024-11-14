@@ -19,7 +19,7 @@ class DashboardController extends AppController
 		$conditions = ["Lessons.start_datetime BETWEEN '$today' AND '$tomorrow'"];
 		$lessons = $table->find('all', ['conditions' => $conditions])->contain(['Teams', 'Horses', 'Teams.Riders'])->orderByAsc('start_datetime');
 
-		$horses = $this->fetchTable('Horses')->find('all')->contain([]);
+		$horses = $this->fetchTable('Horses')->find('all')->contain([])->orderByAsc('name');
 		$selectedLesson = $this->request->getSession()->read('lesson.selected');
 
 		if ($selectedLesson == null && count($lessons->toArray()) > 0) {

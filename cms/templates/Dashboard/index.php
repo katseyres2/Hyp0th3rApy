@@ -8,6 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
+                <h2>Shedules</h2>
                 <div class="accordion" id="accordionExample">
                 <?php if (count($lessons->toArray()) == 0): ?>
                     <span class="fst-italic">
@@ -82,6 +83,7 @@
                 </div>
             </div>
             <div class="col">
+                <h2>New Lesson</h2>
                 <div class="form">
                     <?= $this->Form->create(null, ['url' => ['controller' => 'Teams', 'action' => 'add']]) ?>
                     

@@ -39,15 +39,15 @@ class InvoiceController extends AppController
             $invoice['months'][$month]['lessons'][$lesson->team->id]['team_name'] = $lesson->team->name;
             
             if (!isset($invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'])) {
-                $invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'] = $lesson->price;
+                $invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'] = $lesson->team->price;
             } else {
-                $invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'] += $lesson->price;
+                $invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'] += $lesson->team->price;
             }
 
             if (isset($invoice['months'][$month]['total_amount'])) {
-                $invoice['months'][$month]['total_amount'] += $lesson->price;
+                $invoice['months'][$month]['total_amount'] += $lesson->team->price;
             } else {
-                $invoice['months'][$month]['total_amount'] = $lesson->price;
+                $invoice['months'][$month]['total_amount'] = $lesson->team->price;
             }
 
             $invoice['months'][$month]['is_current_month'] = $month == Date::today()->month;
