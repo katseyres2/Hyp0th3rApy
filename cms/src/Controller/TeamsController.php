@@ -74,7 +74,7 @@ class TeamsController extends AppController
             $rider = $riderTable->newEmptyEntity();
             $rider->created = new DateTime();
             $rider->modified = new DateTime();
-            $rider->username = "$team->name player $i";
+            $rider->username = "player $i";
             $riders[] = $rider;
         }
         
