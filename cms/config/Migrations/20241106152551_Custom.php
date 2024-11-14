@@ -14,14 +14,14 @@ class Custom extends AbstractMigration
      */
     public function up(): void
     {
-        $this->table('customers')
-            ->addColumn('firstname', 'string',  ['default' => null,                 'limit' => 255,     'null' => false])
-            ->addColumn('lastname', 'string',   ['default' => null,                 'limit' => 255,     'null' => false])
-            ->addColumn('phone', 'string',      ['default' => null,                 'limit' => 255,     'null' => false])
-            ->addColumn('email', 'string',      ['default' => null,                 'limit' => 255,     'null' => false])
-            ->addColumn('created', 'datetime',  ['default' => 'CURRENT_TIMESTAMP',  'limit' => null,    'null' => false])
-            ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null,    'null' => false])
-            ->create();
+        // $this->table('customers')
+        //     ->addColumn('firstname', 'string',  ['default' => null,                 'limit' => 255,     'null' => false])
+        //     ->addColumn('lastname', 'string',   ['default' => null,                 'limit' => 255,     'null' => false])
+        //     ->addColumn('phone', 'string',      ['default' => null,                 'limit' => 255,     'null' => false])
+        //     ->addColumn('email', 'string',      ['default' => null,                 'limit' => 255,     'null' => false])
+        //     ->addColumn('created', 'datetime',  ['default' => 'CURRENT_TIMESTAMP',  'limit' => null,    'null' => false])
+        //     ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null,    'null' => false])
+        //     ->create();
 
         $this->table('horses')
             ->addColumn('name', 'string',               ['default' => null,                 'limit' => 255,     'null' => false])
@@ -38,21 +38,20 @@ class Custom extends AbstractMigration
             ->create();
         
         $this->table('teams')
+            ->addColumn('price', 'float', ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
             ->addColumn('name', 'string', ['default' => null, 'limit' => 255, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'null' => false])
             ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'null' => false])
-            ->addColumn('customer_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
-            ->addIndex(['customer_id'], ['name' => 'fk_teams_customers'])
-            ->addForeignKey('customer_id', 'customers', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_customers'])
+            // ->addColumn('customer_id', 'integer', ['default' => null, 'limit' => null, 'null' => true, 'signed' => true])
+            // ->addIndex(['customer_id'], ['name' => 'fk_teams_customers'])
+            // ->addForeignKey('customer_id', 'customers', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_customers'])
             ->create();
 
         $this->table('teams_riders')
-        ->addColumn('created', 'datetime',  ['default' => null, 'null' => false])
-        ->addColumn('modified', 'datetime', ['default' => null, 'null' => false])
         ->addColumn('rider_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
         ->addColumn('team_id', 'integer', ['default' => null, 'limit' => null, 'null' => false, 'signed' => true])
-        ->addIndex(['rider_id'], ['name' => 'fk_teams_riders_riders', 'unique' => false])
-        ->addIndex(['team_id'] , ['name' => 'fk_teams_riders_teams', 'unique' => false])
+        ->addIndex(['rider_id'], ['name' => 'fk_teams_riders_riders'])
+        ->addIndex(['team_id'] , ['name' => 'fk_teams_riders_teams'])
         ->addForeignKey('rider_id', 'riders', 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_riders_riders'])
         ->addForeignKey('team_id' , 'teams' , 'id', ['update' => 'RESTRICT', 'delete' => 'RESTRICT', 'constraint' => 'fk_teams_riders_teams' ])
         ->create();
@@ -67,7 +66,6 @@ class Custom extends AbstractMigration
             ->create();
 
         $this->table('lessons')
-            ->addColumn('price', 'float', ['default' => null,                 'limit' => null, 'null' => false, 'signed' => true])
             ->addColumn('start_datetime', 'datetime', ['default' => null,                 'limit' => null, 'null' => false])
             ->addColumn('end_datetime', 'datetime', ['default' => null,                 'limit' => null, 'null' => false])
             ->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP',  'limit' => null, 'null' => false])

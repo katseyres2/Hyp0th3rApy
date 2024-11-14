@@ -109,12 +109,14 @@ class LessonsController extends AppController
 
         $selectedHorseIds = [];
         $lesson->horses = [];
+
         
         foreach (array_keys($data) as $key) {
-            if (str_starts_with($key, 'horse')) {
+            if (str_starts_with($key, 'horse') && $data[$key] != '-1') {
                 $selectedHorseIds[] = $data[$key];
             }
         }
+
 
         foreach ($horses as $horse) {
             if (in_array($horse->id, $selectedHorseIds)) {
@@ -122,12 +124,8 @@ class LessonsController extends AppController
             }
         }
 
-        if (count($lesson->horses) != count($lesson->team->riders)) {
-            $this->Flash->error(__('The lesson could not be saved. Please, try again.'));
-        } else {
-            if ($this->Lessons->save($lesson)) {
-                $this->Flash->success($lesson->team->name . ' ' . date_format($lesson->start_datetime, 'H:i') . ' - ' . date_format($lesson->end_datetime, 'H:i') . ' : ' . __('The lesson has been saved.'));
-            }
+        if ($this->Lessons->save($lesson)) {
+            $this->Flash->success($lesson->team->name . ' ' . date_format($lesson->start_datetime, 'H:i') . ' - ' . date_format($lesson->end_datetime, 'H:i') . ' : ' . __('The lesson has been saved.'));
         }
 
         return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);

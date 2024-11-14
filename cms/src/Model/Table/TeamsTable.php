@@ -49,10 +49,10 @@ class TeamsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Customers')
-        ->setClassName('Customers')
-        ->setForeignKey('customer_id')
-        ->setJoinType('INNER');
+        // $this->belongsTo('Customers')
+        // ->setClassName('Customers')
+        // ->setForeignKey('customer_id')
+        // ->setJoinType('INNER');
 
         $this->hasMany('Lessons')
         ->setForeignKey('team_id');
@@ -78,9 +78,9 @@ class TeamsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
-        $validator
-            ->integer('customer_id')
-            ->notEmptyString('customer_id');
+        // $validator
+        //     ->integer('customer_id')
+        //     ->notEmptyString('customer_id');
 
         return $validator;
     }
@@ -94,7 +94,7 @@ class TeamsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'), ['errorField' => 'customer_id']);
+        // $rules->add($rules->existsIn(['customer_id'], 'Customers'), ['errorField' => 'customer_id']);
 
         return $rules;
     }

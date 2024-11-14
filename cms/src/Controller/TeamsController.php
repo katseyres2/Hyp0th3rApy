@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\I18n\DateTime;
+
 /**
  * Teams Controller
  *
@@ -43,19 +45,45 @@ class TeamsController extends AppController
      */
     public function add()
     {
+        $this->request->allowMethod('post');
+        
+        $data = $this->request->getData();
         $team = $this->Teams->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $team = $this->Teams->patchEntity($team, $this->request->getData());
-            if ($this->Teams->save($team)) {
-                $this->Flash->success(__('The team has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The team could not be saved. Please, try again.'));
+        $lessonTable = $this->fetchTable('Lessons');
+        $riderTable = $this->fetchTable('Riders');
+        $lesson = $lessonTable->newEmptyEntity();
+
+        $team->name = $data['Name'];
+        $team->created = new DateTime();
+        $team->modified = new DateTime();
+        $team->price = $data['Price'];
+        $team->riders = [];
+        
+        $format = 'Y-m-d H:i:s';
+        $start = $data['Day'] . ' ' . $data['Start'];
+        $end = $data['Day'] . ' ' . $data['End'];
+        
+        $lesson->start_datetime = DateTime::createFromFormat($format, $start);
+        $lesson->end_datetime = DateTime::createFromFormat($format, $end);
+        $lesson->team = $team;
+
+        $riders = [];
+
+        for ($i = 0; $i < $data['People']; $i++) {
+            $rider = $riderTable->newEmptyEntity();
+            $rider->created = new DateTime();
+            $rider->modified = new DateTime();
+            $rider->username = "$team->name player $i";
+            $riders[] = $rider;
         }
-        $customers = $this->Teams->Customers->find('list', limit: 200)->all();
-        $riders = $this->Teams->Riders->find('list', limit: 200)->all();
-        $this->set(compact('team', 'customers', 'riders'));
+        
+        $team->riders = $riders;
+        $this->Teams->saveOrFail($team);
+        $lessonTable->saveOrFail($lesson);
+
+        $this->Flash->success(__('The team has been saved.'));
+        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
     }
 
     /**

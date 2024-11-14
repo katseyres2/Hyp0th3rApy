@@ -21,7 +21,7 @@ class CustomSeed extends AbstractSeed
     public function run(): void
     {
         $this->seedRiders();
-        $this->seedCustomers();
+        // $this->seedCustomers();
         $this->seedUsers();
         $this->seedHorses();
         $this->seedTeams();
@@ -130,14 +130,16 @@ class CustomSeed extends AbstractSeed
     {
         $data = [
             [
-                'customer_id' => 1,
+                // 'customer_id' => null,
                 'name' => 'RastaTroll',
+                'price' => 1503,
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],
             [
-                'customer_id' => 2,
+                // 'customer_id' => null,
                 'name' => 'PoneyPower',
+                'price' => 1000,
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
             ],
@@ -153,20 +155,14 @@ class CustomSeed extends AbstractSeed
             [
                 'rider_id' => 1,
                 'team_id' => 1,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
             ],
             [
                 'rider_id' => 2,
                 'team_id' => 2,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
             ],
             [
                 'rider_id' => 3,
                 'team_id' => 2,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
             ],
         ];
 
@@ -178,7 +174,7 @@ class CustomSeed extends AbstractSeed
     {
         $data = [
             [
-                'price' => 200,
+                // 'price' => 200,
                 'start_datetime' => date('Y-m-d H:i:s'),
                 'end_datetime' => date('Y-m-d H:i:s'),
                 'created' => date('Y-m-d H:i:s'),
@@ -186,7 +182,7 @@ class CustomSeed extends AbstractSeed
                 'team_id' => 1,
             ],
             [
-                'price' => 120,
+                // 'price' => 120,
                 'start_datetime' => date('Y-m-d H:i:s'),
                 'end_datetime' => date('Y-m-d H:i:s'),
                 'created' => date('Y-m-d H:i:s'),
