@@ -86,15 +86,16 @@ class LessonsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['delete']);
         $lesson = $this->Lessons->get($id);
+
         if ($this->Lessons->delete($lesson)) {
-            $this->Flash->success(__('The lesson has been deleted.'));
+            $this->Flash->success(__("The lesson has been deleted."));
         } else {
             $this->Flash->error(__('The lesson could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
     }
 
     public function assign($id = null)

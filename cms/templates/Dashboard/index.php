@@ -10,7 +10,11 @@
             <div class="col">
                 <h2>Shedules</h2>
                 <div class="accordion" id="accordionExample">
-                <?php if (count($lessons->toArray()) == 0): ?>
+                <?php
+
+        use Cake\I18n\DateTime;
+
+ if (count($lessons->toArray()) == 0): ?>
                     <span class="fst-italic">
                         No lessons planned today.
                     </span>
@@ -21,11 +25,25 @@
                             <button class="accordion-button <?php if ($selectedLesson != $lesson->id) echo 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $key ?>" aria-expanded="<?php if ($key == 0) echo 'true'; ?>" aria-controls="collapse<?= $key ?>">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-8">
+                                        <div class="col">
                                             <?= h($lesson->team->name) ?>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-3">
                                             <?= h(date_format($lesson->start_datetime, 'H:i')) ?> - <?= h(date_format($lesson->end_datetime, 'H:i')) ?>
+                                        </div>
+                                        <div class="col-1">
+                                            <?= $this->Form->postLink(
+                                                '<span class="fa-solid fa-trash border-0 bg-transparent" style="color: red"></span>',
+                                                [
+                                                    'controller' => 'Lessons',
+                                                    'action' => 'delete',
+                                                    $lesson->id
+                                                ],
+                                                [
+                                                    'escape' => false,
+                                                    'confirm' => __('Are you sure you want to delete the lesson {0}?', $lesson->team->name),
+                                                    'method' => 'delete',
+                                                ]) ?>
                                         </div>
                                     </div>
                                 </div>
@@ -63,10 +81,20 @@
                                             ];
 
                                             foreach ($horses as $horse) {
+                                                $totalWorkingSeconds = 0;
+                                                $maxWorkingSeconds = $horse->max_working_hours * 3600;
+
+                                                foreach ($horse->lessons as $l) {
+                                                    $duration = $l->end_datetime->getTimestamp() - $l->start_datetime->getTimestamp();
+                                                    $totalWorkingSeconds += $duration;
+                                                }
+
+                                                $remainingWorkingSeconds = $maxWorkingSeconds - $totalWorkingSeconds;
+
                                                 $horseNames[] = [
-                                                    'text' => ucfirst(h($horse->name)),
+                                                    'text' => ucfirst(h($horse->name)) . ' - ' . $remainingWorkingSeconds/3600 . __('h remaining'),
                                                     'value' => $horse->id, 
-                                                    'selected' => $selectedHorse != null && $horse->id == $selectedHorse->id
+                                                    'selected' => $selectedHorse != null && $horse->id == $selectedHorse->id,
                                                 ];
                                             }
                                             ?>
