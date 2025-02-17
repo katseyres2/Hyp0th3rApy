@@ -11,6 +11,9 @@ use Cake\Validation\Validator;
 /**
  * Lessons Model
  *
+ * @property \App\Model\Table\PlanningsTable&\Cake\ORM\Association\BelongsTo $Plannings
+ * @property \App\Model\Table\HorsesTable&\Cake\ORM\Association\BelongsToMany $Horses
+ *
  * @method \App\Model\Entity\Lesson newEmptyEntity()
  * @method \App\Model\Entity\Lesson newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Lesson> newEntities(array $data, array $options = [])
@@ -40,13 +43,13 @@ class LessonsTable extends Table
         parent::initialize($config);
 
         $this->setTable('lessons');
-        $this->setDisplayField('id');
+        $this->setDisplayField('firstname');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Teams', [
-            'foreignKey' => 'team_id',
+        $this->belongsTo('Plannings', [
+            'foreignKey' => 'planning_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsToMany('Horses', [
@@ -65,23 +68,30 @@ class LessonsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->numeric('price')
+            ->integer('price')
             ->requirePresence('price', 'create')
             ->notEmptyString('price');
 
         $validator
-            ->dateTime('start_datetime')
-            ->requirePresence('start_datetime', 'create')
-            ->notEmptyDateTime('start_datetime');
+            ->integer('number_of_riders')
+            ->requirePresence('number_of_riders', 'create')
+            ->notEmptyString('number_of_riders');
 
         $validator
-            ->dateTime('end_datetime')
-            ->requirePresence('end_datetime', 'create')
-            ->notEmptyDateTime('end_datetime');
+            ->scalar('firstname')
+            ->maxLength('firstname', 255)
+            ->requirePresence('firstname', 'create')
+            ->notEmptyString('firstname');
 
         $validator
-            ->integer('team_id')
-            ->notEmptyString('team_id');
+            ->scalar('lastname')
+            ->maxLength('lastname', 255)
+            ->requirePresence('lastname', 'create')
+            ->notEmptyString('lastname');
+
+        $validator
+            ->integer('planning_id')
+            ->notEmptyString('planning_id');
 
         return $validator;
     }
@@ -95,7 +105,7 @@ class LessonsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['team_id'], 'Teams'), ['errorField' => 'team_id']);
+        $rules->add($rules->existsIn(['planning_id'], 'Plannings'), ['errorField' => 'planning_id']);
 
         return $rules;
     }

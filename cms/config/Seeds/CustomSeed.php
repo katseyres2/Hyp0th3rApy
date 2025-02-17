@@ -20,67 +20,11 @@ class CustomSeed extends AbstractSeed
      */
     public function run(): void
     {
-        $this->seedRiders();
-        // $this->seedCustomers();
         $this->seedUsers();
+        // $this->seedPlannings();
         $this->seedHorses();
-        $this->seedTeams();
-        $this->seedTeamsRiders();
-        $this->seedLessons();
-        $this->seedHorsesLessons();
-
-    }
-
-    private function seedRiders(): void
-    {
-        $data = [
-            [
-                'username' => 'thomas',
-                'age' => 24,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'username' => 'clara',
-                'age' => 12,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'username' => 'sidonie',
-                'age' => 32,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-        ];
-
-        $table = $this->table('riders');
-        $table->insert($data)->save();
-    }
-
-    private function seedCustomers(): void
-    {
-        $data = [
-            [
-                'firstname' => 'john',
-                'lastname' => 'doe',
-                'phone' => '000112233',
-                'email' => 'john@mail.com',
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'firstname' => 'jane',
-                'lastname' => 'doe',
-                'phone' => '000112233',
-                'email' => 'jane@mail.com',
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-        ];
-
-        $table = $this->table('customers');
-        $table->insert($data)->save();
+        // $this->seedLessons();
+        // $this->seedHorsesLessons();
     }
 
     private function seedUsers(): void
@@ -138,48 +82,19 @@ class CustomSeed extends AbstractSeed
         $table = $this->table('horses');
         $table->insert($data)->save();
     }
-    
-    private function seedTeams(): void
+
+    private function seedPlannings(): void
     {
-        $data = [
-            [
-                // 'customer_id' => null,
-                'name' => 'RastaTroll',
-                'price' => 1503,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-            [
-                // 'customer_id' => null,
-                'name' => 'PoneyPower',
-                'price' => 1000,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s'),
-            ],
-        ];
+        $data = [];
 
-        $table = $this->table('teams');
-        $table->insert($data)->save();
-    }
+        for ($i=0; $i < 6; $i++) {
+            $data[] = [
+                'start_datetime' => date('Y-m-d H', strtotime("$i hour")),
+                'end_datetime' => date('Y-m-d H', strtotime("$i hour") + 3600),
+            ];
+        }
 
-    private function seedTeamsRiders(): void
-    {
-        $data = [
-            [
-                'rider_id' => 1,
-                'team_id' => 1,
-            ],
-            [
-                'rider_id' => 2,
-                'team_id' => 2,
-            ],
-            [
-                'rider_id' => 3,
-                'team_id' => 2,
-            ],
-        ];
-
-        $table = $this->table('teams_riders');
+        $table = $this->table('plannings');
         $table->insert($data)->save();
     }
 
@@ -187,20 +102,22 @@ class CustomSeed extends AbstractSeed
     {
         $data = [
             [
-                // 'price' => 200,
-                'start_datetime' => date('Y-m-d H:i:s'),
-                'end_datetime' => date('Y-m-d H:i:s'),
+                'price' => 200,
+                'number_of_riders' => 4,
+                'firstname' => 'john',
+                'lastname' => 'doe',
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
-                'team_id' => 1,
+                // 'planning_id' => 1,
             ],
             [
-                // 'price' => 120,
-                'start_datetime' => date('Y-m-d H:i:s'),
-                'end_datetime' => date('Y-m-d H:i:s'),
+                'price' => 120,
+                'number_of_riders' => 2,
+                'firstname' => 'jane',
+                'lastname' => 'doe',
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s'),
-                'team_id' => 2,
+                // 'planning_id' => 2
             ],
         ];
 

@@ -1,4 +1,7 @@
-FROM composer
-RUN apk update \ 
-&& apk add php-curl \ 
-&& apk add php-intl
+FROM composer:latest
+RUN apk update && apk add --no-cache \
+    icu-dev \
+    libxml2-dev \
+    curl \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl

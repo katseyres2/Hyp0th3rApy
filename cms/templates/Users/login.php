@@ -11,6 +11,9 @@
             <?= $this->Form->control('remember_me', ['type' => 'checkbox', 'class' => 'form-check-input', 'label' => ['class' => 'form-check-label']]) ?>
         </div>
     </div>
-    <?= $this->Form->button(__('Login'), ['class' => "btn btn-primary"]); ?>
+    <div class="mb-3">
+        <?= $this->Form->button(__('Login'), ['class' => "btn btn-primary"]); ?>
+        <?= $this->Html->link(__('Create account'), ['controller' => 'Users', 'action' => 'add'], ['class' => 'btn btn-primary m-2']) ?>
+    </div>
     <?= $this->Form->end() ?>
 </div>

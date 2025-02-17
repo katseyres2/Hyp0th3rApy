@@ -1,5 +1,5 @@
 <div>
-	<h1><?= h(__('Invoice')) ?></h1>
+	<h1><?= h(__('Facturation')) ?></h1>
 
 	<div class="pb-3">
 		<?= date('l, d F, Y') ?>
@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-5">
-				<h2><?= __('History') ?></h2>
+				<h2><?= __('Historique') ?></h2>
 				<div class="accordion" id="accordionExample">
 					<?php foreach ($invoice['months'] as $idx => $monthData): ?>
 						
@@ -36,7 +36,7 @@
 												<div class="container">
 													<div class="row">
 														<div class="col-8">
-														<?= $lesson['team_name'] ?>
+														<?= $lesson['firstname'] .' '. $lesson['lastname'] ?>
 														</div>
 														<div class="col">
 														<?= $lesson['total_amount'] ?> €
@@ -53,12 +53,11 @@
 				</div>
 			</div>
 			<div class="col">
-				<h2><?= __('Current Month') ?></h2>
+				<h2><?= __('Mois actuel') ?></h2>
 				<table class="table table-hover rounded">
 					<thead class="border-bottom-1 border-secondary">
 						<?= $this->Html->tableHeaders([
-							['Team Name' => ['scope' => 'col']],
-							['Number of hours' => ['scope' => 'col']],
+							['Nom de la leçon' => ['scope' => 'col']],
 							['Total' => ['scope' => 'col']],
 						]) ?>
 					</thead>
@@ -67,8 +66,7 @@
 							<tbody class="border-0">
 								<?php foreach ($data['lessons'] as $lesson): ?>
 									<tr class="border-0">
-										<td class="border-0"><?= $lesson['team_name'] ?></td>
-										<td class="border-0">...</td>
+										<td class="border-0"><?= $lesson['firstname'] .' '. $lesson['lastname'] ?></td>
 										<td class="border-0"><?= $lesson['total_amount'] ?> €</td>
 									</tr>
 								<?php endforeach ?>
@@ -76,9 +74,9 @@
 							</tbody>
 							<tfoot class="border-top border-secondary">
 								<tr>
-									<td colspan="2"><?= __('Total') ?> : <?= $data['total_amount'] ?> €</td>
+									<td colspan="1"><?= __('Total') ?> : <?= $data['total_amount'] ?> €</td>
 									<td>
-										<a href="#"><?= __('Send all invoices') ?> <i class="fa-solid fa-paper-plane"></i></a>
+										<a href="#"><?= __('Envoyer les factures') ?> <i class="fa-solid fa-paper-plane"></i></a>
 									</td>
 								</tr>
 							</tfoot>

@@ -23,7 +23,7 @@ class HorsesController extends AppController
 			$horse->deleted = false;
 
 			if ($this->Horses->save($horse)) {
-				$this->Flash->success(__('New horse saved.'));
+				$this->Flash->success(__('Ajout réussi.'));
 				return $this->redirect(['action' => 'index']);
 			} else {
 				$this->Flash->error(__('Cannot add new horse.'));
@@ -44,11 +44,11 @@ class HorsesController extends AppController
 			$this->Horses->patchEntity($horse, $this->request->getData());
 
 			if ($this->Horses->save($horse)) {
-				$this->Flash->success(__('Horse updated.'));
+				$this->Flash->success(__("Sauvegarde réussie."));
 				return $this->redirect(['action' => 'index']);
 			}
 			
-			$this->Flash->error(__('Horse not updated.'));
+			$this->Flash->error(__("Le cheval $horse->name n'a pas été modifié;"));
 		}
 
 		$this->set('horse', $horse);
@@ -61,7 +61,7 @@ class HorsesController extends AppController
 		$horse = $this->Horses->findById($id)->firstOrFail();
 
 		if ($this->Horses->delete($horse)) {
-			$this->Flash->success(__('Horse deleted.'));
+			$this->Flash->success(__("Suppression réussie."));
 			return $this->redirect(['action' => 'index']);
 		}
 	}

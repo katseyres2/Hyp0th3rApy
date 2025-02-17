@@ -57,8 +57,10 @@ return function (RouteBuilder $routes): void {
          */
         // $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
         $builder->connect('/', ['controller' => 'Dashboard', 'action' => 'index']);
+        $builder->connect('/statistics', ['controller' => 'Statistics', 'action' => 'index']);
         
         $builder->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
+        $builder->connect('/users/add', ['controller' => 'Users', 'action' => 'add']);
         $builder->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
         $builder->connect('/users/profile', ['controller' => 'Users', 'action' => 'profile']);
         $builder->connect('/horses/{id}', ['controller' => 'Horses', 'action' => 'view'])->setPatterns(['id' => '\d+'])->setPass(['id']);

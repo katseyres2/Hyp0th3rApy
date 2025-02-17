@@ -21,33 +21,34 @@ class InvoiceController extends AppController
     {
         $currentDate = Date::today();
         $futureDate = $currentDate->add(DateInterval::createFromDateString('1 year'));
-
         $currentYear = $currentDate->format('Y-01-01 00:00:00');
         $nextYear = $futureDate->format('Y-01-01 00:00:00');
-        $conditions = ["Lessons.start_datetime BETWEEN '$currentYear' AND '$nextYear'"];
-        $lessons = $this->fetchTable('Lessons')->find('all', ['conditions' => $conditions])->contain(['Teams']);
+
+        $conditions = ["Plannings.start_datetime BETWEEN '$currentYear' AND '$nextYear'"];
+        $lessons = $this->fetchTable('Lessons')->find('all', ['conditions' => $conditions])->contain('Plannings');
         $invoice = [];
 
         foreach ($lessons as $lesson) {
             if (!isset($invoice['year'])) {
-                $invoice['year'] = $lesson->start_datetime->year;
+                $invoice['year'] = $lesson->planning->start_datetime->year;
             }
 
-            $month = $lesson->start_datetime->month;
+            $month = $lesson->planning->start_datetime->month;
 
-            $invoice['months'][$month]['lessons'][$lesson->team->id]['id'] = $lesson->id;
-            $invoice['months'][$month]['lessons'][$lesson->team->id]['team_name'] = $lesson->team->name;
+            $invoice['months'][$month]['lessons'][$lesson->id]['id'] = $lesson->id;
+            $invoice['months'][$month]['lessons'][$lesson->id]['firstname'] = $lesson->firstname;
+            $invoice['months'][$month]['lessons'][$lesson->id]['lastname'] = $lesson->lastname;
             
-            if (!isset($invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'])) {
-                $invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'] = $lesson->team->price;
+            if (!isset($invoice['months'][$month]['lessons'][$lesson->id]['total_amount'])) {
+                $invoice['months'][$month]['lessons'][$lesson->id]['total_amount'] = $lesson->price;
             } else {
-                $invoice['months'][$month]['lessons'][$lesson->team->id]['total_amount'] += $lesson->team->price;
+                $invoice['months'][$month]['lessons'][$lesson->id]['total_amount'] += $lesson->price;
             }
 
             if (isset($invoice['months'][$month]['total_amount'])) {
-                $invoice['months'][$month]['total_amount'] += $lesson->team->price;
+                $invoice['months'][$month]['total_amount'] += $lesson->price;
             } else {
-                $invoice['months'][$month]['total_amount'] = $lesson->team->price;
+                $invoice['months'][$month]['total_amount'] = $lesson->price;
             }
 
             $invoice['months'][$month]['is_current_month'] = $month == Date::today()->month;

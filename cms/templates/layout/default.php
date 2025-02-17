@@ -40,11 +40,15 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>" class="navbar-brand"><span>Hyp0</span>th3rApy</a>
             <div>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><?= $this->Html->link(__('Horse Manager'), ['controller' => 'Horses', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
-                    <li class="nav-item"><?= $this->Html->link(__('Invoice'), ['controller' => 'Invoice', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Accueil'), ['controller' => 'Dashboard', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Statistiques'), ['controller' => 'Statistics', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Séances'), ['controller' => 'Plannings', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Leçons'), ['controller' => 'Lessons', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Chevaux'), ['controller' => 'Horses', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Facturation'), ['controller' => 'Invoice', 'action' => 'index'], ['class' => 'nav-link active']) ?></li>
                     <?php if(isset($profile)): ?>
-                    <li class="nav-item"><?= $this->Html->link(__('Account'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'nav-link active']) ?></li>
-                    <li class="nav-item"><?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Compte'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'nav-link active']) ?></li>
+                    <li class="nav-item"><?= $this->Html->link(__('Déconnexion'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link active']) ?></li>
                     <?php endif ?>
                     <li class="nav-item fs-4 pt-0 ps-4 mt-0"><a href="https://github.com/katseyres2/Hyp0th3rApy"><i class="mt-1 ms-3 fs-3 fa-brands fa-github" style="color: black;"></a></i></li>
                 </ul>

@@ -21,11 +21,12 @@ class LessonsFixture extends TestFixture
             [
                 'id' => 1,
                 'price' => 1,
-                'start_datetime' => '2024-11-12 13:58:48',
-                'end_datetime' => '2024-11-12 13:58:48',
-                'created' => '2024-11-12 13:58:48',
-                'modified' => '2024-11-12 13:58:48',
-                'team_id' => 1,
+                'number_of_riders' => 1,
+                'firstname' => 'Lorem ipsum dolor sit amet',
+                'lastname' => 'Lorem ipsum dolor sit amet',
+                'created' => '2025-02-12 15:29:11',
+                'modified' => '2025-02-12 15:29:11',
+                'planning_id' => 1,
             ],
         ];
         parent::init();

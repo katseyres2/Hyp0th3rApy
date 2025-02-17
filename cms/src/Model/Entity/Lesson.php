@@ -9,12 +9,16 @@ use Cake\ORM\Entity;
  * Lesson Entity
  *
  * @property int $id
- * @property float $price
- * @property \Cake\I18n\DateTime $start_datetime
- * @property \Cake\I18n\DateTime $end_datetime
+ * @property int $price
+ * @property int $number_of_riders
+ * @property string $firstname
+ * @property string $lastname
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
- * @property int $team_id
+ * @property int $planning_id
+ *
+ * @property \App\Model\Entity\Horse[] $horses
+ * @property \App\Model\Entity\Planning[] $plannings
  */
 class Lesson extends Entity
 {
@@ -29,10 +33,13 @@ class Lesson extends Entity
      */
     protected array $_accessible = [
         'price' => true,
-        'start_datetime' => true,
-        'end_datetime' => true,
+        'number_of_riders' => true,
+        'firstname' => true,
+        'lastname' => true,
         'created' => true,
         'modified' => true,
-        'team_id' => true,
+        'planning_id' => true,
+        'horses' => true,
+        'plannings' => true,
     ];
 }

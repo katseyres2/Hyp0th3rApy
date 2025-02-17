@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Handler\DatabaseHandler;
+use App\Handler\ValidationHandler;
+
 /**
  * Lessons Controller
  *
@@ -42,17 +45,46 @@ class LessonsController extends AppController
      */
     public function add()
     {
-        $lesson = $this->Lessons->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $lesson = $this->Lessons->patchEntity($lesson, $this->request->getData());
-            if ($this->Lessons->save($lesson)) {
-                $this->Flash->success(__('The lesson has been saved.'));
+        $newLesson = $this->Lessons->newEmptyEntity();
 
-                return $this->redirect(['action' => 'index']);
+        if ($this->request->is('post')) {
+            $data = $this->request->getData();
+
+            $newLesson->firstname = $data['firstname'];
+            $newLesson->lastname = $data['lastname'];
+            $newLesson->number_of_riders = $data['number_of_people'];
+            $newLesson->price = $data['price'];
+
+            $planning = $this->fetchTable('Plannings')->find('all')->where(['id' => $data['planning']])->contain('Lessons')->first();
+            $newLesson->planning = $planning;
+
+            $sumOfRiders = 0;
+            foreach ($planning->lessons as $lesson) {
+                $sumOfRiders += $lesson->number_of_riders;
             }
-            $this->Flash->error(__('The lesson could not be saved. Please, try again.'));
+
+            if ($newLesson->price < 0 || $newLesson->price > 99999) {
+                $this->Flash->error(__('Le prix entré est incorrect.'));    
+            } else if ($newLesson->number_of_riders > 8 || $newLesson->number_of_riders < 1) {
+                $this->Flash->error(__('Le nombre de personnes entré est incorrect.'));    
+            } else if ($sumOfRiders + $newLesson->number_of_riders > 8) {
+                $this->Flash->error(__('Il n\'y a pas assez de places pendant cette séance pour accueillir autant de personnes.'));    
+            } else if ($this->Lessons->save($newLesson)) {
+                $this->Flash->success(__('La leçon a bien été créée.'));
+            } else {
+                $this->Flash->error(__('La leçon n\'a pas pu être créée. Veuillez réessayer.'));
+            }
         }
+        
+        $lesson = $newLesson;
         $this->set(compact('lesson'));
+        
+        return $this->redirect(
+            [
+                'controller' => 'Dashboard',
+                'action' => 'index'
+            ]
+        );
     }
 
     /**
@@ -64,16 +96,26 @@ class LessonsController extends AppController
      */
     public function edit($id = null)
     {
-        $lesson = $this->Lessons->get($id, contain: []);
+        $lesson = $this->Lessons->get($id, contain: ['Plannings', 'Plannings.Lessons']);
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $lesson = $this->Lessons->patchEntity($lesson, $this->request->getData());
-            if ($this->Lessons->save($lesson)) {
-                $this->Flash->success(__('The lesson has been saved.'));
+            $data = $this->request->getData();
+            $newPlanning = $this->fetchTable('Plannings')->find('all')->where(['id' => $data['planning_id']])->contain('Lessons')->firstOrFail();
+            $lesson = $this->Lessons->patchEntity($lesson, $data);
+            $isPlanningFree = ValidationHandler::isPlanningFree($newPlanning, $lesson->id, intval($data['number_of_riders']));
 
-                return $this->redirect(['action' => 'index']);
+            if (! $isPlanningFree) {
+                $this->Flash->error(__('La séance n\'est pas disponible pour ce nombre de personnes.'));    
+            } else if ($isPlanningFree && $this->Lessons->save($lesson)) {
+                $this->Flash->success(__('La leçon a été modifiée.'));
+                return $this->redirect(['controller' => 'dashboard', 'action' => 'index']);
+            } else {
+                $this->Flash->error(__('La leçon n\'a pas pu être sauvegardée.'));
             }
-            $this->Flash->error(__('The lesson could not be saved. Please, try again.'));
         }
+
+        $monthlyPlannings = DatabaseHandler::filterMonthlyPlannings($this->fetchTable('Plannings'));
+        $this->set(compact('monthlyPlannings'));
         $this->set(compact('lesson'));
     }
 
@@ -86,8 +128,8 @@ class LessonsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['delete']);
-        $lesson = $this->Lessons->get($id);
+        // Retrieve the lesson to delete.
+        $lesson = $this->fetchTable('Lessons')->find('all')->where(['Lessons.id' => $id])->contain(['Horses', 'Plannings'])->firstOrFail();
 
         if ($this->Lessons->delete($lesson)) {
             $this->Flash->success(__("The lesson has been deleted."));
@@ -95,54 +137,11 @@ class LessonsController extends AppController
             $this->Flash->error(__('The lesson could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
-    }
-
-    public function assign($id = null)
-    {
-        $this->request->allowMethod(['put']);
-        $horses = $this->fetchTable('Horses')->find()->contain(['Lessons']);
-        $data = $this->request->getData();
-        $lesson = $this->Lessons->findById($id)->contain(['Horses', 'Teams.Riders'])->first();
-
-        $session = $this->request->getSession();
-        $session->write('lesson.selected', $id);
-
-        $selectedHorseIds = [];
-        $lesson->horses = [];
-        
-        foreach (array_keys($data) as $key) {
-            if (str_starts_with($key, 'horse') && $data[$key] != '-1') {
-                $selectedHorseIds[] = $data[$key];
-            }
-        }
-
-
-        foreach ($horses as $horse) {
-            if (in_array($horse->id, $selectedHorseIds)) {
-                $totalWorkingSeconds = 0;
-                $maxWorkingSeconds = $horse->max_working_hours * 3600;
-
-                foreach ($horse->lessons as $l) {
-                    $duration = $l->end_datetime->getTimestamp() - $l->start_datetime->getTimestamp();
-                    $totalWorkingSeconds += $duration;
-                }
-
-                $remainingWorkingSeconds = $maxWorkingSeconds - $totalWorkingSeconds;
-
-                if ($remainingWorkingSeconds < 1) {
-                    $this->Flash->error("The horse $horse->name cannot work today anymore.");
-                    return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
-                }
-
-                $lesson->horses[] = $horse;
-            }
-        }
-
-        if ($this->Lessons->save($lesson)) {
-            $this->Flash->success($lesson->team->name . ' ' . date_format($lesson->start_datetime, 'H:i') . ' - ' . date_format($lesson->end_datetime, 'H:i') . ' : ' . __('The lesson has been saved.'));
-        }
-
-        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
+        return $this->redirect(
+            [
+                'controller' => 'Dashboard',
+                'action' => 'index'
+            ],
+        );
     }
 }

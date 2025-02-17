@@ -1,4 +1,4 @@
-<h1>Horse Manager</h1>
+<h1>Gestionnaire de chevaux</h1>
 
 <div class="container p-3">
 	<div class="row gx-5">
@@ -6,10 +6,10 @@
 			<div class="">
 				<table class="table table-striped">
 					<?= $this->Html->tableHeaders([
-						['Name' => ['scope' => 'col']],
-						['Max working hours' => ['scope' => 'col']],
-						['Edit' => ['scope' => 'col']],
-						['Delete' => ['scope' => 'col']],
+						['Nom' => ['scope' => 'col']],
+						['Heures max par jour' => ['scope' => 'col']],
+						['Modifier' => ['scope' => 'col']],
+						['Supprimer' => ['scope' => 'col']],
 					]) ?>
 					<?php foreach ($horses as $h): ?>
 					<tr>
@@ -37,12 +37,12 @@
 				<div class="form content">
 					<?= $this->Form->create($horse, ['url' => ['action' => 'add']]) ?>
 					<div class="mb-3">
-						<?= $this->Form->control('name', ['class' => 'form-control', 'label' => ['class' => 'form-label'], 'placeholder' => __('the name of the horse')]) ?>
+						<?= $this->Form->control('name', ['class' => 'form-control', 'label' => ['class' => 'form-label', 'text' => 'Nom'], 'placeholder' => __('le nom du cheval...')]) ?>
 					</div>
 					<div class="mb-3">
-						<?= $this->Form->control('max_working_hours', ['class' => 'form-control', 'label' => ['class' => 'form-label'], 'default' => 0, 'min' => 0, 'max' => 24]) ?>
+						<?= $this->Form->control('max_working_hours', ['class' => 'form-control', 'label' => ['class' => 'form-label', 'text' => 'Heures max par jour'], 'default' => 0, 'min' => 0, 'max' => 24]) ?>
 					</div>
-					<?= $this->Form->button(__('Create'), ['class' => "btn btn-primary"]); ?>
+					<?= $this->Form->button(__('Créer'), ['class' => "btn btn-primary"]); ?>
 					<?= $this->Form->end() ?>
 				</div>
 			</div>

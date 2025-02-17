@@ -16,28 +16,32 @@ services:
         depends_on:
             - php
             - db
-        networks:
-            - web
+        # networks:
+        #     - web
     php:
+        container_name: hyp0th3rapy-php
         build:
+            context: .
             dockerfile: Dockerfile.backend
         restart: always
-        container_name: hyp0th3rapy-php
         volumes:
             - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
             - "./cms:/var/www/html"
         user: root:root
-        networks:
-            - web
-            - mysql_backend
+        # networks:
+        #     - web
+        #     - mysql_backend
     composer:
         container_name: hyp0th3rapy-composer
         build:
+            context: .
             dockerfile: Dockerfile.composer
         volumes:
             - "./cms:/app"
-            - "./etc/php/composer.ini:/usr/local/etc/php/conf.d/php.ini"
+            - "./etc/php/composer.ini:/usr/local/etc/php/php-cli.ini"
         command: install
+        ports:
+            - 7070
     db:
         image: mysql:${MYSQL_VERSION}
         container_name: hyp0th3rapy-mysql
@@ -47,13 +51,15 @@ services:
         env_file:
             - ".env"
         environment:
-            - MYSQL_DATABASE=${MYSQL_DATABASE}
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
             - MYSQL_USER=${MYSQL_USER}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        networks:
-            - mysql_phpmyadmin
-            - mysql_backend
+        ports:
+            - "3306:3306"
+        # networks:
+        #     - mysql_phpmyadmin
+        #     - mysql_backend
     phpmyadmin:
         image: phpmyadmin
         restart: always
@@ -62,17 +68,29 @@ services:
             - PMA_HOSTS=db
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         ports:
-            - "8090:80"
+            - "8080:80"
         depends_on:
             - db
-        networks:
-            - mysql_phpmyadmin
-            - web
+        # networks:
+        #     - mysql_phpmyadmin
+        #     - web
 
-networks:
-    mysql_phpmyadmin:
-    mysql_backend:
-    web:
+# networks:
+#     mysql_phpmyadmin:
+#         driver: bridge
+#         ipam:
+#             config:
+#             - subnet: 10.5.0.0/24
+#     mysql_backend:
+#         driver: bridge
+#         ipam:
+#             config:
+#             - subnet: 10.6.0.0/24
+#     web:
+#         driver: bridge
+#         ipam:
+#             config:
+#             - subnet: 10.7.0.0/24
 
 volumes:
     db_data:
