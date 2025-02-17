@@ -49,6 +49,6 @@
 
 	<?= $this->Form->hidden('update', ['default' => true]) ?>
 	<?= $this->Form->hidden('id', ['default' => $lesson->id]) ?>
-	<?= $this->Form->button(__('Sauvegarder'), ['class' => "btn btn-primary"]); ?>
+	<?= $this->Form->button(__('Sauvegarder'), ['class' => "btn btn-primary mt-4"]); ?>
 	<?= $this->Form->end() ?>
 </div>

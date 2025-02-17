@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm text-center">
+        <div class="col-sm text-center" style="visibility: collapse;">
             <div class="card">
                 <div class="card-body">
                     Total ce mois-ci

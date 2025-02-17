@@ -29,7 +29,7 @@
                     <td><?= h(date_format($lesson->created, 'd/m/Y à H:i:s')) ?></td>
                     <td><?= h(date_format($lesson->modified, 'd/m/Y à H:i:s')) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('Voir'), ['action' => 'view', $lesson->id]) ?>
+                        
                         <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $lesson->id]) ?>
                         <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $lesson->id], ['confirm' => __('Are you sure you want to delete # {0}?', $lesson->id)]) ?>
                     </td>

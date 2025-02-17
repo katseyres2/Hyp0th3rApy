@@ -28,11 +28,19 @@ class StatisticsController extends AppController
         $numberOfHorses = $this->fetchTable('Horses')->find('all')->count();
         $lastCreatedHorse = $this->fetchTable('Horses')->find('all')->orderByDesc('created')->first();
         
-        $lessons = $this->fetchTable('Lessons')->find('all', [$condition])->toArray();
+        $lessons = $this->fetchTable('Lessons')->find('all')->contain('Plannings')->toArray();
         $monthAmount = 0;
 
         foreach ($lessons as $lesson) {
-            $monthAmount += $lesson->price;
+            $startDatetime = $lesson->planning->start_datetime;
+
+            // var_dump($firstDay);
+            // var_dump($startDatetime);
+            // var_dump($lastDay);
+            
+            if ($firstDay <= $startDatetime && $startDatetime <= $lastDay) {
+                $monthAmount += $lesson->price;
+            }
         }
 
         $data =[
